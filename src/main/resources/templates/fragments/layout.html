@@ -1,0 +1,168 @@
+<!--
+    Fragmentos de layout partilhados por todas as páginas internas
+    (dashboard, produtos, vendas, etc.). Uso numa página nova:
+
+    <body>
+      <div class="app-shell">
+        <div th:replace="~{fragments/layout :: sidebar('dashboard')}"></div>
+        <div class="app-content">
+          <div th:replace="~{fragments/layout :: topbar('Dashboard')}"></div>
+          <main class="app-main"> ... conteúdo da página ... </main>
+        </div>
+      </div>
+    </body>
+
+    O parâmetro 'dashboard' passado ao sidebar indica qual item do menu
+    fica marcado como ativo (compara com th:classappend abaixo).
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside th:fragment="sidebar(active)" class="sidebar">
+
+        <div class="sidebar-brand">
+            <span class="brand-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 8h12l-1 12H7L6 8Z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span class="brand-text">
+                <strong>SGE</strong>
+                <span>Vendas e Estoque</span>
+            </span>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a th:href="@{/dashboard}" class="nav-item" th:classappend="${active == 'dashboard'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M4 12 12 4l8 8M6 10v10h5v-6h2v6h5V10" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                </span>
+                Dashboard
+            </a>
+
+            <p class="nav-section">Cadastros</p>
+
+            <a th:href="@{/produtos}" class="nav-item" th:classappend="${active == 'produtos'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 8l9-5 9 5-9 5-9-5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 8v8l9 5 9-5V8" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                </span>
+                Produtos
+            </a>
+
+            <a th:href="@{/categorias}" class="nav-item" th:classappend="${active == 'categorias'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/><rect x="13" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.7"/></svg>
+                </span>
+                Categorias
+            </a>
+
+            <a th:href="@{/fornecedores}" class="nav-item" th:classappend="${active == 'fornecedores'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="7" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18" cy="8" r="2.4" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 20c.3-2.6 1.9-4.6 4-4.9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                </span>
+                Fornecedores
+            </a>
+
+            <p class="nav-section">Movimentações</p>
+
+            <a th:href="@{/compras}" class="nav-item" th:classappend="${active == 'compras'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l1.6 10.6a2 2 0 0 0 2 1.7h8a2 2 0 0 0 2-1.6L20 8H6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="20" r="1.2" fill="currentColor"/><circle cx="17" cy="20" r="1.2" fill="currentColor"/></svg>
+                </span>
+                Compras
+            </a>
+
+            <a th:href="@{/vendas}" class="nav-item" th:classappend="${active == 'vendas'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M3 4h2l1.6 10.6a2 2 0 0 0 2 1.7h8a2 2 0 0 0 2-1.6L20 8H6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="20" r="1.2" fill="currentColor"/><circle cx="17" cy="20" r="1.2" fill="currentColor"/></svg>
+                </span>
+                Vendas
+            </a>
+
+            <a th:href="@{/estoque}" class="nav-item" th:classappend="${active == 'estoque'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="1.5" stroke="currentColor" stroke-width="1.7"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" stroke-width="1.7"/></svg>
+                </span>
+                Estoque
+            </a>
+
+            <p class="nav-section">Gestão</p>
+
+            <a th:href="@{/utilizadores}" class="nav-item" th:classappend="${active == 'utilizadores'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="7" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="18" cy="8" r="2.4" stroke="currentColor" stroke-width="1.7"/><path d="M15.5 20c.3-2.6 1.9-4.6 4-4.9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                </span>
+                Utilizadores
+            </a>
+
+            <p class="nav-section">Relatórios</p>
+
+            <a th:href="@{/relatorios}" class="nav-item" th:classappend="${active == 'relatorios'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M6 3h9l4 4v14H6V3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12h6M9 16h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                </span>
+                Relatórios
+            </a>
+
+            <p class="nav-section">Configurações</p>
+
+            <a th:href="@{/definicoes}" class="nav-item" th:classappend="${active == 'definicoes'} ? 'active'">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.3.9a7 7 0 0 0-2-1.2L14.2 3H9.8l-.4 2.5a7 7 0 0 0-2 1.2l-2.3-.9-2 3.4 2 1.6a7 7 0 0 0 0 2.4l-2 1.6 2 3.4 2.3-.9a7 7 0 0 0 2 1.2l.4 2.5h4.4l.4-2.5a7 7 0 0 0 2-1.2l2.3.9 2-3.4-2-1.6c.1-.4.1-.8.1-1.2Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+                </span>
+                Definições
+            </a>
+
+        </nav>
+
+        <form th:action="@{/logout}" action="/logout" method="post" class="sidebar-logout">
+            <button type="submit" class="nav-item nav-item-button">
+                <span class="nav-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none"><path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M16 16l4-4-4-4M20 12H9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
+                Sair
+            </button>
+        </form>
+
+    </aside>
+
+    <!-- ================= TOPBAR ================= -->
+    <header th:fragment="topbar(titulo)" class="topbar">
+
+        <div class="topbar-left">
+            <button type="button" class="icon-button sidebar-toggle" aria-label="Alternar menu">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <h1 th:text="${titulo}">Dashboard</h1>
+        </div>
+
+        <div class="topbar-right">
+            <button type="button" class="icon-button" aria-label="Notificações">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 18a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.6"/></svg>
+                <span class="notif-badge">3</span>
+            </button>
+
+            <div class="topbar-user">
+                <span class="user-avatar">
+                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </span>
+                <span class="user-info">
+                    <!--
+                        #authentication já está disponível sem dependências extra
+                        (é injetado pelo Spring Security no contexto do Thymeleaf).
+                        Se quiseres tags sec:authorize no futuro, adiciona a
+                        dependência thymeleaf-extras-springsecurity6 ao pom.xml.
+                    -->
+                    <strong th:text="${#authentication != null ? #authentication.name : 'Administrador'}">Administrador</strong>
+                    <span>Administrador</span>
+                </span>
+            </div>
+        </div>
+
+    </header>
+
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — SGE Vendas e Estoque</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../static/css/main.css">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="../static/css/dashboard.css">
+</head>
+<body class="app-body">
+
+<div class="app-shell">
+
+    <div th:replace="~{fragments/layout :: sidebar('dashboard')}"></div>
+
+    <div class="app-content">
+
+        <div th:replace="~{fragments/layout :: topbar('Dashboard')}"></div>
+
+        <main class="app-main">
+
+            <!-- ======================= KPIs ======================= -->
+            <section class="kpi-grid">
+
+                <article class="kpi-card">
+                    <span class="kpi-icon kpi-icon-blue">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="20" r="1.3" fill="currentColor"/><circle cx="17" cy="20" r="1.3" fill="currentColor"/><path d="M2.5 3h2.2l2.2 12.2a2 2 0 0 0 2 1.7h8.4a2 2 0 0 0 2-1.6L21 7.5H6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <div class="kpi-body">
+                        <span class="kpi-label">Vendas Hoje</span>
+                        <strong class="kpi-value" th:text="${vendasHoje} ?: '12.450,00 MT'">12.450,00 MT</strong>
+                        <span class="kpi-trend kpi-trend-up">↑ 18.6% vs ontem</span>
+                    </div>
+                </article>
+
+                <article class="kpi-card">
+                    <span class="kpi-icon kpi-icon-green">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="20" r="1.3" fill="currentColor"/><circle cx="17" cy="20" r="1.3" fill="currentColor"/><path d="M2.5 3h2.2l2.2 12.2a2 2 0 0 0 2 1.7h8.4a2 2 0 0 0 2-1.6L21 7.5H6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </span>
+                    <div class="kpi-body">
+                        <span class="kpi-label">Compras Hoje</span>
+                        <strong class="kpi-value" th:text="${comprasHoje} ?: '8.230,00 MT'">8.230,00 MT</strong>
+                        <span class="kpi-trend kpi-trend-up">↑ 12.4% vs ontem</span>
+                    </div>
+                </article>
+
+                <article class="kpi-card">
+                    <span class="kpi-icon kpi-icon-amber">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 8l9-5 9 5-9 5-9-5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M3 8v8l9 5 9-5V8" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>
+                    </span>
+                    <div class="kpi-body">
+                        <span class="kpi-label">Produtos</span>
+                        <strong class="kpi-value" th:text="${totalProdutos} ?: '256'">256</strong>
+                        <span class="kpi-trend">Total cadastrados</span>
+                    </div>
+                </article>
+
+                <article class="kpi-card">
+                    <span class="kpi-icon kpi-icon-red">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3 2 20h20L12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4M12 17h.01" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+                    </span>
+                    <div class="kpi-body">
+                        <span class="kpi-label">Estoque Baixo</span>
+                        <strong class="kpi-value" th:text="${estoqueBaixo} ?: '23'">23</strong>
+                        <span class="kpi-trend kpi-trend-alert">Itens em alerta</span>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- ======================= GRÁFICOS ======================= -->
+            <section class="panel-grid panel-grid-charts">
+
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>Resumo de Vendas</h2>
+                        <select class="select-compact" aria-label="Período">
+                            <option>Últimos 7 dias</option>
+                            <option>Últimos 30 dias</option>
+                        </select>
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="chartResumoVendas" height="220"></canvas>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>Vendas por Categoria</h2>
+                    </div>
+                    <div class="panel-body chart-donut-body">
+                        <canvas id="chartVendasCategoria" height="180"></canvas>
+                        <ul class="legend-list">
+                            <li><span class="dot" style="background:#4574f5"></span>Bebidas <b>35%</b></li>
+                            <li><span class="dot" style="background:#7c5cf0"></span>Alimentação <b>28%</b></li>
+                            <li><span class="dot" style="background:#1fa564"></span>Higiene <b>18%</b></li>
+                            <li><span class="dot" style="background:#f2a93c"></span>Limpeza <b>12%</b></li>
+                            <li><span class="dot" style="background:#c7cede"></span>Outros <b>7%</b></li>
+                        </ul>
+                    </div>
+                </article>
+
+            </section>
+
+            <!-- ======================= TABELAS ======================= -->
+            <section class="panel-grid panel-grid-tables">
+
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>Produtos Mais Vendidos</h2>
+                    </div>
+                    <div class="panel-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Categoria</th>
+                                    <th>Quantidade</th>
+                                    <th>Valor Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!--
+                                    th:each="p : ${produtosMaisVendidos}" no controller real.
+                                    Linhas abaixo são só o exemplo estático do mockup.
+                                -->
+                                <tr>
+                                    <td>Água Mineral 1.5L</td><td>Bebidas</td><td>120</td><td>5.400,00 MT</td>
+                                </tr>
+                                <tr>
+                                    <td>Arroz 5kg</td><td>Alimentação</td><td>80</td><td>4.000,00 MT</td>
+                                </tr>
+                                <tr>
+                                    <td>Açúcar 2kg</td><td>Alimentação</td><td>65</td><td>2.600,00 MT</td>
+                                </tr>
+                                <tr>
+                                    <td>Detergente 500ml</td><td>Limpeza</td><td>50</td><td>1.250,00 MT</td>
+                                </tr>
+                                <tr>
+                                    <td>Sabão em Pó 1kg</td><td>Limpeza</td><td>45</td><td>1.125,00 MT</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="panel">
+                    <div class="panel-header">
+                        <h2>Alertas de Estoque</h2>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="alert-list">
+                            <li>
+                                <span class="alert-info">
+                                    <strong>Café 250g</strong>
+                                    <span>Estoque: 2 · Mínimo: 10</span>
+                                </span>
+                                <span class="badge badge-critico">Crítico</span>
+                            </li>
+                            <li>
+                                <span class="alert-info">
+                                    <strong>Leite em Pó 400g</strong>
+                                    <span>Estoque: 3 · Mínimo: 10</span>
+                                </span>
+                                <span class="badge badge-critico">Crítico</span>
+                            </li>
+                            <li>
+                                <span class="alert-info">
+                                    <strong>Óleo 900ml</strong>
+                                    <span>Estoque: 4 · Mínimo: 10</span>
+                                </span>
+                                <span class="badge badge-baixo">Baixo</span>
+                            </li>
+                            <li>
+                                <span class="alert-info">
+                                    <strong>Sabão em Pó 1kg</strong>
+                                    <span>Estoque: 6 · Mínimo: 10</span>
+                                </span>
+                                <span class="badge badge-baixo">Baixo</span>
+                            </li>
+                            <li>
+                                <span class="alert-info">
+                                    <strong>Papel Higiénico</strong>
+                                    <span>Estoque: 7 · Mínimo: 15</span>
+                                </span>
+                                <span class="badge badge-atencao">Atenção</span>
+                            </li>
+                        </ul>
+                    </div>
+                </article>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<script th:src="@{/js/dashboard.js}" src="../static/js/dashboard.js"></script>
+</body>
+</html>

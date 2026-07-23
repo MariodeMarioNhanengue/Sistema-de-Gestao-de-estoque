@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar — SGE Vendas e Estoque</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" href="../static/css/main.css">
+</head>
+<body class="login-body">
+
+<div class="login-shell">
+
+    <!-- ============================================================
+         Painel de marca — lado esquerdo
+         ============================================================ -->
+    <aside class="login-brand">
+
+        <div class="brand-mark">
+            <span class="mark-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M6 8h12l-1 12H7L6 8Z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/>
+                    <path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span class="mark-text">
+                <strong>SGE</strong>
+                <span>Vendas e Estoque</span>
+            </span>
+        </div>
+
+        <div class="brand-hero">
+            <h1>Controle as suas vendas e o seu estoque num único lugar.</h1>
+            <p>Aceda ao painel para acompanhar vendas, compras, estoque e relatórios em tempo real.</p>
+        </div>
+
+        <div class="brand-features">
+            <div class="brand-feature">
+                <span class="feature-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <div>
+                    <strong>Acesso seguro</strong>
+                    <p>Autenticação protegida com Spring Security.</p>
+                </div>
+            </div>
+
+            <div class="brand-feature">
+                <span class="feature-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 20V10M12 20V4M20 20v-7" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <div>
+                    <strong>Dashboard inteligente</strong>
+                    <p>Indicadores em tempo real para decidir melhor.</p>
+                </div>
+            </div>
+
+            <div class="brand-feature">
+                <span class="feature-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                        <path d="M3 8l9-5 9 5-9 5-9-5Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
+                        <path d="M3 8v8l9 5 9-5V8" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
+                    </svg>
+                </span>
+                <div>
+                    <strong>Controlo de estoque</strong>
+                    <p>Atualização automática e alertas de reposição.</p>
+                </div>
+            </div>
+
+            <div class="brand-feature">
+                <span class="feature-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 3h9l4 4v14H6V3Z" stroke="#fff" stroke-width="1.7" stroke-linejoin="round"/>
+                        <path d="M9 12h6M9 16h6" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <div>
+                    <strong>Relatórios completos</strong>
+                    <p>Exportação em PDF e Excel a qualquer momento.</p>
+                </div>
+            </div>
+        </div>
+
+    </aside>
+
+    <!-- ============================================================
+         Painel de formulário — lado direito
+         ============================================================ -->
+    <main class="login-main">
+
+        <div class="login-card">
+
+            <div class="login-card-header">
+                <span class="login-badge">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M6 8h12l-1 12H7L6 8Z" stroke="#2f5fed" stroke-width="1.8" stroke-linejoin="round"/>
+                        <path d="M9 8V6a3 3 0 0 1 6 0v2" stroke="#2f5fed" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <h2>Entrar no sistema</h2>
+                <p>Utilize as suas credenciais para aceder ao SGE</p>
+            </div>
+
+            <!-- Mensagem de erro de autenticação (?error na URL, definido pelo Spring Security) -->
+            <div class="alert alert-error" th:if="${param.error}">
+                Utilizador ou palavra-passe inválidos. Tente novamente.
+            </div>
+
+            <!-- Mensagem de sessão terminada com sucesso (?logout na URL) -->
+            <div class="alert alert-success" th:if="${param.logout}">
+                Sessão terminada com sucesso.
+            </div>
+
+            <!--
+                th:action="@{/login}" aponta para o endpoint padrão do Spring Security.
+                Como o formulário usa th:action, o token CSRF é injetado
+                automaticamente pelo Thymeleaf (RequestDataValueProcessor),
+                não é necessário adicionar um campo hidden manualmente.
+            -->
+            <form th:action="@{/login}" action="/login" method="post" class="login-form">
+
+                <div class="form-group">
+                    <label for="username">Utilizador</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        class="form-control"
+                        placeholder="Digite o seu utilizador"
+                        th:value="${param.username}"
+                        autocomplete="username"
+                        autofocus
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Palavra-passe</label>
+                    <div class="input-with-action">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder="Digite a sua palavra-passe"
+                            autocomplete="current-password"
+                            required>
+                        <button type="button" class="toggle-password" data-target="password" aria-label="Mostrar palavra-passe">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label class="checkbox">
+                        <input type="checkbox" name="remember-me">
+                        Lembrar-me
+                    </label>
+                    <a th:href="@{/recuperar-senha}" href="#" class="link-muted">Esqueceu a senha?</a>
+                </div>
+
+                <button type="submit" class="btn-primary btn-block">Entrar</button>
+
+            </form>
+
+        </div>
+
+        <p class="login-footer">&copy; 2026 SGE — Todos os direitos reservados.</p>
+
+    </main>
+
+</div>
+
+<script th:src="@{/js/login.js}" src="../static/js/login.js"></script>
+</body>
+</html>
